@@ -1,13 +1,13 @@
 services:
   frontend:
-    build: ./frontend
+    image: prajwalnav/frontend
     ports:
       - "80:3000"
     depends_on:
       - backend
 
   backend:
-    build: ./backend
+    image: prajwalnav/backend
     ports:
       - "8080:8080"
     environment:
@@ -23,7 +23,7 @@ services:
       - mongo_data:/data/db
 
   nginx:
-    build: ./nginx
+    image: prajwalnav/nginx
     ports:
       - "8082:80"
     depends_on:
