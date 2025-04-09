@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
 });
 
 // require("./app/routes/turorial.routes")(app);
-app.use("/api", require("./app/routes/turorial.routes"));
+app.use("/api/tutorials", require("./app/routes/turorial.routes"));
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
