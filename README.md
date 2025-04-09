@@ -9,11 +9,16 @@ This repository contains a full-stack CRUD application built with **Angular**, *
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/<your-username>/Discover-Dollar-Assignment.git
+git clone https://github.com/prajwalnaveeenn/Discover-Dollar-Assignment.git
 cd Discover-Dollar-Assignment
 ```
+
 ### 2. Docker Image Build & Push (via GitHub Actions)
+
+![Docker Build and Push](./screenshots/docker-build-push.png)
+
 On every push to the main branch, GitHub Actions:
+
 - Builds Docker images for frontend, backend, and nginx
 - Pushes them to Docker Hub
 - SSHs into the EC2 instance
@@ -21,6 +26,9 @@ On every push to the main branch, GitHub Actions:
 - Deploys on EC2
 
 ### 3. CI/CD Configuration
+
+![Github Actions](./screenshots/github-actions.png)
+
 GitHub Actions (.github/workflows/deployment.yml) automates the full pipeline:
 🔨 Docker build
 📦 Docker push
@@ -32,28 +40,37 @@ Secrets used:
 ### 4. Docker Image Build & Push Process
 
 ### 🔧 Frontend
+
 ```bash
 docker build -t prajwalnav/frontend ./frontend
 docker push prajwalnav/frontend
 ```
+
 ### 🔧 Backend
+
 ```bash
 docker build -t prajwalnav/backend ./backend
 docker push prajwalnav/backend
 ```
+
 ### 🔧 Nginx(Reverse Proxy)
+
 ```bash
 docker build -t prajwalnav/nginx ./nginx
 docker push prajwalnav/nginx
 ```
+
 - Each service (frontend, backend, nginx) is containerized.
 - Frontend: Angular app served using `http-server`
 - Backend: Node.js with Express and Mongoose
 - Nginx: Acts as reverse proxy to frontend (port 3000) and backend (port 8080)
 
-
 ### 5. Nginx Setup & Infrastructure Details
+
+![Nginx Setup](./screenshots/nginx-setup.png)
+
 nginx.conf
+
 ```nginx
 server {
     listen 80;
@@ -69,11 +86,13 @@ server {
 ```
 
 ### 6. UI
+
+![UI Homepage or Tutorial](./screenshots/ui-tutorial.png)
+![UI Add page](./screenshots/ui-add.png)
+
 Final Working UI has:
+
 - 🌐 Accessible at: http://51.21.152.35/
 - ✅ Angular frontend with full CRUD operations
 - 🔗 Connected to Express backend and MongoDB
 - 🔁 Reverse proxied through NGINX for clean routing
-
-
-
