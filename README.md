@@ -1,27 +1,79 @@
-In this DevOps task, you need to build and deploy a full-stack CRUD application using the MEAN stack (MongoDB, Express, Angular 15, and Node.js). The backend will be developed with Node.js and Express to provide REST APIs, connecting to a MongoDB database. The frontend will be an Angular application utilizing HTTPClient for communication.
+# 🚀 Assignment – Full Stack Deployment
 
-The application will manage a collection of tutorials, where each tutorial includes an ID, title, description, and published status. Users will be able to create, retrieve, update, and delete tutorials. Additionally, a search box will allow users to find tutorials by title.
+This repository contains a full-stack CRUD application built with **Angular**, **Node.js**, **Express**, **MongoDB**, and deployed using **Docker**, **Docker Compose**, **Nginx**, and **GitHub Actions (CI/CD)**.
 
-## Project setup
+---
 
-### Node.js Server
+## Step-by-Step Setup & Deployment Instructions
 
-cd backend
+### 1. Clone the Repository
 
-npm install
+```bash
+git clone https://github.com/<your-username>/Discover-Dollar-Assignment.git
+cd Discover-Dollar-Assignment
+```
+### 2. Docker Image Build & Push (via GitHub Actions)
+On every push to the main branch, GitHub Actions:
+- Builds Docker images for frontend, backend, and nginx
+- Pushes them to Docker Hub
+- SSHs into the EC2 instance
+- Pulls updated images and restarts containers
+- Deploys on EC2
 
-You can update the MongoDB credentials by modifying the `db.config.js` file located in `app/config/`.
+### 3. CI/CD Configuration
+GitHub Actions (.github/workflows/deployment.yml) automates the full pipeline:
+🔨 Docker build
+📦 Docker push
+🚀 Remote deployment via SSH
 
-Run `node server.js`
+Secrets used:
+`DOCKER_USERNAME`, `DOCKER_PASSWORD`, `SERVER_IP`, `SERVER_USER`, `SSH_KEY`
 
-### Angular Client
+### 4. Docker Image Build & Push Process
 
-cd frontend
+### 🔧 Frontend
+```bash
+docker build -t prajwalnav/frontend ./frontend
+docker push prajwalnav/frontend
+```
+### 🔧 Backend
+```bash
+docker build -t prajwalnav/backend ./backend
+docker push prajwalnav/backend
+```
+### 🔧 Nginx(Reverse Proxy)
+```bash
+docker build -t prajwalnav/nginx ./nginx
+docker push prajwalnav/nginx
+```
+- Each service (frontend, backend, nginx) is containerized.
+- Frontend: Angular app served using `http-server`
+- Backend: Node.js with Express and Mongoose
+- Nginx: Acts as reverse proxy to frontend (port 3000) and backend (port 8080)
 
-npm install
 
-Run `ng serve --port 8081`
+### 5. Nginx Setup & Infrastructure Details
+nginx.conf
+```nginx
+server {
+    listen 80;
 
-You can modify the `src/app/services/tutorial.service.ts` file to adjust how the frontend interacts with the backend.
+    location / {
+        proxy_pass http://frontend:3000;
+    }
 
-Navigate to `http://localhost:8081/`
+    location /api/ {
+        proxy_pass http://backend:8080;
+    }
+}
+```
+
+### 6. UI
+Final Working UI has:
+- 🌐 Accessible at: http://51.21.152.35/
+- ✅ Angular frontend with full CRUD operations
+- 🔗 Connected to Express backend and MongoDB
+- 🔁 Reverse proxied through NGINX for clean routing
+
+
+
